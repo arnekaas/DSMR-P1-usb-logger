@@ -11,7 +11,7 @@ else:
 
 # Create table (if not database dous not exist)
 if os.path.isfile(db):
-	print "Saving data to " + db
+	print "Saving data to sqlite db: " + db
         conn = sqlite3.connect(db)
         c = conn.cursor()
 else:
