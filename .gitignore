@@ -1,0 +1,6 @@
+# ignore user db
+*.db
+!example.db
+
+# ignore log files
+/logs
