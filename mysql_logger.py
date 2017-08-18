@@ -1,59 +1,46 @@
-#P1 telegram from smart processor made by Arne
 from __future__ import print_function
-from datetime import date, datetime, timedelta
+import time
 import mysql.connector
 import re
 
+user="p1logger"
+password="p1logger"
+database="EnergyLogs"
+#table = "test"
 
-print("The reader has started")
-file = 'P1telegrams.txt'
-pattern = re.compile("([0-9].[78].[0-9])\(([0-9]*.[0-9]*)\*(k[wW][h]?)?\)")
-#read and process the file
-for i, line in enumerate(open(file)):
-    for match in re.finditer(pattern, line):
-        #print 'Found on line %s: %s' % (i+1, match.groups())
-	#print 'Power: ' + match.group(2) + match.group(3)
-	#print 'Type: ' + match.group(1)
-	if '1.7.0' in match.group(1):	
-		Power_Consumed = int(float(match.group(2))*1000)
-		print ("Power_Consumed: " + str(Power_Consumed) + 'W')
-	if '.8.' in match.group(1):
-		print (str(int(float(match.group(2))*1000)) + 'Wh')
+print("Saving data to MYSQL: (will fail if correct user/datebase is not there)")
+print("user: "+user)
+print("pass: "+password)
+print("db: "+database)
 
-#regular expression to get values
-
-#save values to local DB
+#CREAT LOCAL USER AND PRIVILEGES
 	#CREATE USER 'p1logger'@'localhost' IDENTIFIED BY 'p1logger';
 	#CREATE DATABASE  EnergyLogs;
 	#GRANT ALL ON EnergyLogs.* TO 'p1logger'@'localhost';
-	#GRANT SELECT ON EnergyLogs.* TO 'p1logger'@'*';
+	#GRANT SELECT ON EnergyLogs.* TO 'p1logger'@'*'; #for remote acces
 
 # mysql connect
-cnx = mysql.connector.connect(user='p1logger',password='p1logger', database='EnergyLogs')
+cnx = mysql.connector.connect(user=user,password=password,database=database)
 cursor = cnx.cursor()
 
-now = datetime.now()	# +timedelta(hours=1)
-data_salary = {'datetime': now}
 
-QUERY = ("INSERT INTO test "
-               "(datetime) "
-               "VALUES (%s)")
+# creata table
+#QUERY = "DROP TABLE test"
+#cursor.execute(QUERY)
+QUERY = "CREATE TABlE `EnergyLogs`.`test` ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, datetime DATETIME, power_used INT, power_produced INT);"
+#cursor.execute(QUERY)
 
-# Insert energy data
-data_salary = {
-  'datetime': now,
-  'emp_no': emp_no,
-  'salary': 50000  
-}
 
-QUERY = "CREATE TABlE `EnergyLogs`.`test2` ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, datetime DATETIME );"
+# get local time
+now = time.strftime('%Y-%m-%d %H:%M:%S')
 
-cursor.execute(QUERY)
-id = cursor.lastrow
+# Insert data
+cursor.execute("INSERT INTO test "
+               "(datetime,power_used,power_produced) "
+               "VALUES (%s,%s,%s)",(now,demand_power,supply_power))
 
 # Make sure data is committed to the database
 cnx.commit()
-
 cursor.close()
 cnx.close()
 
