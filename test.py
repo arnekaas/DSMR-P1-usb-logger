@@ -1,17 +1,15 @@
 import time
 
 
-print"P1 read test started..." + time.strftime("%Y-%m-%d %H:%M:%S")
-execfile("read_p1_telegram.py")
-execfile("process_p1_telegram.py") 
-execfile("sqlite_log.py")
-execfile("mysql_logger.py")
-
 print ("P1 read test started..." + time.strftime("%Y-%m-%d %H:%M:%S"))
+
 try:
-    execfile("p1logger.py")
+    execfile("read_P1_telegram.py")
 except:
-    print("P1 DSMR read failed")
+    print("DSMR P1 USB read failed, usign test telegram")
+    with open('logs/testP1telegram.txt', 'r') as myfile:
+        telegram=myfile.read()
+    print (telegram)
 
 try:
     execfile("process_p1_telegram.py")
