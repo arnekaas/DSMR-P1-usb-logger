@@ -20,4 +20,4 @@ except:
 try:
     execfile("mysql_logger.py")
 except:
-    print("mysql save of data failed, please check settings in mysql_logger")
+    print("mysql save of data failed, please check settings in mysql_logger.py")
