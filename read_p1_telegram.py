@@ -22,8 +22,7 @@ ser.stopbits=serial.STOPBITS_ONE
 ser.xonxoff=0
 ser.rtscts=0
 ser.timeout=20
-ser.port="/dev/ttyUSB0" #use on raspberrypi
-ser.port="/dev/tty.usbserial-P11KXDOA"  # use for testing on macs
+ser.port="/dev/ttyUSB0" #use on raspberrypi ser.port="/dev/tty.usbserial-P11KXDOA"  # use for testing on macs
 
 
 #Initialize empty telegram

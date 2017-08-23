@@ -3,7 +3,7 @@ import time
 
 def job():
     print"P1 read started..." + time.strftime("%Y-%m-%d %H:%M:%S")
-    execfile("p1logger.py")
+    execfile("read_p1_telegram.py")
     execfile("process_p1_telegram.py") 
     execfile("sqlite_log.py")
 
