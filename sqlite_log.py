@@ -3,10 +3,10 @@ import os.path
 import hashlib
 
 #check if serial number is given, else save data to example.db
-if(len(str(serial_number))):
+try:
 	db_name = hashlib.md5(str(serial_number)).hexdigest() #hash serial number for security reasons (eg. data sharing with no backtrace)
 	db = db_name+'.db'
-else:
+except:
 	db = 'example.db'
 
 # Create table (if not database dous not exist)
